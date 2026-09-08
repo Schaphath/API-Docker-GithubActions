@@ -1,0 +1,28 @@
+# Pour récupérer les données depuis PostgreSQL :
+docker compose exec postgres psql -U oncoscan -d oncoscan
+
+SELECT * FROM predictions;
+
+SELECT
+    created_at,
+    prediction,
+    probability_pct,
+    texture_worst,
+    area_worst,
+    smoothness_worst,
+    compactness_worst,
+    concavity_worst,
+    concave_points_worst,
+    symmetry_worst,
+    fractal_dimension_worst
+FROM predictions
+WHERE user_id = 1
+ORDER BY created_at DESC;
+
+
+"Pour exporter directement les données en CSV :
+docker compose exec -T postgres psql `
+  -U oncoscan `
+  -d oncoscan `
+  -c "COPY predictions TO STDOUT WITH CSV HEADER" `
+  > predictions.csv
