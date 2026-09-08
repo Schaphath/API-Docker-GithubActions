@@ -15,7 +15,7 @@
   </p>
 </div>
 
-> **Avertissement médical** : OncoScan AI est un projet pédagogique et un outil d'aide à la décision. Il ne constitue pas un diagnostic médical et ne remplace jamais l'évaluation d'un professionnel de santé.
+> **Avertissement médical** : OncoScan AI est un projet personnel à but pédagogique. Il ne constitue pas un diagnostic médical et ne remplace pas professionnel de santé.
 
 ## Sommaire
 
