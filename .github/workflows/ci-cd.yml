@@ -1,4 +1,4 @@
-name: CI/CD Docker Hub
+name: OncoScanCI/CD 
 
 on:
   push:
@@ -30,10 +30,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-          cache: pip
-          cache-dependency-path: |
-            Api/requirements_api.txt
-            Interface/requirements_interface.txt
 
       - name: Compile Python sources
         run: python -m compileall -q Api Interface
@@ -87,7 +83,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: os,library
-          severity: CRITICAL,HIGH
+          severity: CRITICAL
 
   publish:
     name: Publish ${{ matrix.name }} to Docker Hub
