@@ -205,13 +205,12 @@ def predict(data: PredictionRequest, request: Request) -> PredictionResponse:
         is_malignant = prediction_raw in (1, "M")
 
         probability = None
-        classes = list(model.classes_)
         if hasattr(model, "predict_proba"):
-            malignant_class = 1 if 1 in classes else "M"
-            malignant_index = classes.index(malignant_class)
-            probability = round(
-                float(model.predict_proba(scaled_features)[0][malignant_index]), 3
-            )
+            classes = list(model.classes_)
+            # Récupère l'index correspondant exactement à la classe prédite
+            predicted_class_index = classes.index(prediction_raw)
+            probas = model.predict_proba(scaled_features)[0]
+            probability = round(float(probas[predicted_class_index]), 3)
 
         return PredictionResponse(
             prediction="M" if is_malignant else "B",
