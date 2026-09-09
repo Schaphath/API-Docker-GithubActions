@@ -15,12 +15,14 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    networks:
+      - db-net
 
   api:
-    build: 
-      context: .  
-      dockerfile: ./Api/Dockerfile 
-    image: oncoscan-api:${VERSION}
+    build:
+      context: .
+      dockerfile: ./Api/Dockerfile
+    image: oncoscan-api:${VERSION:-latest}
     restart: unless-stopped
     environment:
       API_KEY: ${API_KEY:?API_KEY must be set}
@@ -35,12 +37,14 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
+    networks:
+      - internal-net
 
   interface:
-    build: 
-      context: .  
+    build:
+      context: .
       dockerfile: ./Interface/Dockerfile
-    image: oncoscan-interface:${VERSION}
+    image: oncoscan-interface:${VERSION:-latest}
     restart: unless-stopped
     environment:
       API_URL: http://api:8000/predict
@@ -59,6 +63,15 @@ services:
         condition: service_healthy
     ports:
       - "8501:8501"
+    networks:
+      - internal-net
+      - db-net
 
 volumes:
   pgdata:
+
+networks:
+  internal-net:
+    driver: bridge
+  db-net:
+    driver: bridge
